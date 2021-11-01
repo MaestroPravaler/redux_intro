@@ -2,6 +2,7 @@ import './Intervalo.css';
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { alterarValorMinino, alterarValorMaximo } from '../store/actions/numeros'
 
 import Card from './Card';
 
@@ -15,7 +16,7 @@ const Intervalo = props => {
                     <input
                         type="number"
                         value={min}
-                        readOnly
+                        onChange={(e) => props.alterarMinimo(+e.target.value)}
                     />
                 </span>
                 <span>
@@ -23,7 +24,7 @@ const Intervalo = props => {
                     <input
                         type="number"
                         value={max}
-                        readOnly
+                        onChange={(e) => props.alterarMaximo(+e.target.value)}
                     />
                 </span>
             </div>
@@ -38,4 +39,19 @@ function mapStateToProps(state){
     };
 }
 
-export default connect(mapStateToProps)(Intervalo);
+function mapDispathToProps(dispath){
+    return{
+        alterarMinimo(novoNumero){
+            // Action Creator -> action
+            const action = alterarValorMinino(novoNumero);
+            dispath(action);
+        },
+        alterarMaximo(novoNumero){
+            // Action Creator -> action
+            const action = alterarValorMaximo(novoNumero);
+            dispath(action);
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(Intervalo);
